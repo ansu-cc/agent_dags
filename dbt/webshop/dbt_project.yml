@@ -68,4 +68,11 @@ seeds:
           dateofbirth: text  # Can be converted to DATE in a dbt model later
           currentaddressid: integer
           created: timestamp
-          updated: timestamp    
+          updated: timestamp
+    labels:
+      +schema: webshop_v2
+      +column_types:
+          id: integer
+          name: text
+          slugname: text
+          icon: text
