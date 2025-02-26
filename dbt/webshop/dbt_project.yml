@@ -6,6 +6,7 @@ version: '0.1'
 profile: 'ai_lab'
 
 model-paths: ["models"]
+seed-paths: ["data"]  # Ensure dbt knows where to find the seed CSV files
 
 target-path: "target"
 clean-targets:
@@ -20,3 +21,12 @@ models:
     transformations:
       schema: webshop
       materialized: table
+
+seeds:
+  ai_lab:
+    order:
+      +schema: webshop  # Ensure it loads into the webshop schema
+      +column_types:
+          id: integer
+          customerid: integer
+          ordertimestamp: time
