@@ -105,3 +105,9 @@ seeds:
           count: integer
           created: timestamp
           updated: timestamp 
+    colors:
+      +schema: webshop_v2
+      +column_types:
+          id: integer
+          name: text
+          rgb: text  # Storing HEX color codes as text
