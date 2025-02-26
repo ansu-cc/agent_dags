@@ -97,7 +97,7 @@ seeds:
           currentlyactive: boolean  # Assuming "t" and "f" represent true/false
           created: timestamp
           updated: timestamp 
-    stocks:
+    stock:
       +schema: webshop_v2
       +column_types:
           id: integer
