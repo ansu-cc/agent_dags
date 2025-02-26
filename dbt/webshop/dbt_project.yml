@@ -76,3 +76,13 @@ seeds:
           name: text
           slugname: text
           icon: text
+    order_positions:
+      +schema: webshop_v2
+      +column_types:
+          id: integer
+          orderid: integer
+          articleid: integer
+          amount: integer
+          price: numeric  # Ensure "$" is removed before ingestion
+          created: timestamp
+          updated: timestamp
