@@ -6,20 +6,26 @@ version: '0.1'
 profile: 'ai_lab'
 
 model-paths: ["models"]
-seed-paths: ["data"]  # Enables dbt seed if needed
-macro-paths: ["macros"]  # Allows custom macros
+seed-paths: ["data"]  # Ensures dbt looks for CSV files in the 'data/' directory
 
 target-path: "target"
 clean-targets:
-  - "target"
-  - "dbt_modules"
-  - "logs"
+    - "target"
+    - "dbt_modules"
+    - "logs"
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
-models:
+seeds:
   ai_lab:
-    load:
-      schema: webshop
-      materialized: table
-      pre-hook: "{{ load_sql_dump('scripts/order.sql') }}"  # Runs order.sql before dbt models
+    order:
+      +schema: webshop_v2  # Now loads into the webshop_v2 schema
+      +column_types:
+          id: integer
+          customerid: integer
+          ordertimestamp: timestamp
+          shippingaddressid: integer
+          total: numeric
+          shippingcost: numeric
+          created: timestamp
+          updated: timestamp 
