@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: webshop
+    database: webshop
+    schema: webshop
+    tables:
+      - name: order
