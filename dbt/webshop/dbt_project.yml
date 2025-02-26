@@ -86,3 +86,14 @@ seeds:
           price: numeric  # Ensure "$" is removed before ingestion
           created: timestamp
           updated: timestamp
+    products:
+      +schema: webshop_v2
+      +column_types:
+          id: integer
+          name: text
+          labelid: integer
+          category: text
+          gender: text
+          currentlyactive: boolean  # Assuming "t" and "f" represent true/false
+          created: timestamp
+          updated: timestamp
