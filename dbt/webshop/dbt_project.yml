@@ -28,4 +28,16 @@ seeds:
           total: numeric
           shippingcost: numeric
           created: timestamp
-          updated: timestamp 
+          updated: timestamp
+    address:
+      +schema: webshop_v2  # Ensures it loads into webshop_v2 schema
+      +column_types:
+          customerid: integer
+          firstname: text
+          lastname: text
+          address1: text
+          address2: text
+          city: text
+          zip: text  # ZIP codes often contain letters, so use TEXT
+          created: timestamp
+          updated: timestamp
