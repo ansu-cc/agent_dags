@@ -96,4 +96,12 @@ seeds:
           gender: text
           currentlyactive: boolean  # Assuming "t" and "f" represent true/false
           created: timestamp
-          updated: timestamp
+          updated: timestamp 
+    stocks:
+      +schema: webshop_v2
+      +column_types:
+          id: integer
+          articleid: integer
+          count: integer
+          created: timestamp
+          updated: timestamp 
