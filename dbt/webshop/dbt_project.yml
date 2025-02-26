@@ -6,9 +6,8 @@ version: '0.1'
 profile: 'ai_lab'
 
 model-paths: ["models"]
-seed-paths: ["data"]  # Uncomment if using dbt seed
-macro-paths: ["macros"]  # Macros directory for SQL execution
-script-paths: ["scripts"]  # Directory for raw SQL files
+seed-paths: ["data"]  # Enables dbt seed if needed
+macro-paths: ["macros"]  # Allows custom macros
 
 target-path: "target"
 clean-targets:
