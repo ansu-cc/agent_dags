@@ -41,3 +41,19 @@ seeds:
           zip: text  # ZIP codes often contain letters, so use TEXT
           created: timestamp
           updated: timestamp
+    article:
+      +schema: webshop_v2  # Ensures data loads into webshop_v2 schema
+      +column_types:
+          id: integer
+          productid: integer
+          ean: text
+          colorid: integer
+          size: integer
+          description: text
+          originalprice: numeric
+          reducedprice: numeric
+          taxrate: integer
+          discountinpercent: integer
+          currentlyactive: boolean  # Assuming "t" and "f" represent true/false
+          created: timestamp
+          updated: timestamp
