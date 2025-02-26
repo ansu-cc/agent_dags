@@ -41,8 +41,9 @@ seeds:
           zip: text  # ZIP codes often contain letters, so use TEXT
           created: timestamp
           updated: timestamp
-    article:
+    articles:
       +schema: webshop_v2  # Ensures data loads into webshop_v2 schema
+      +full_refresh: false  # Prevents truncation before inserting new data
       +column_types:
           id: integer
           productid: integer
