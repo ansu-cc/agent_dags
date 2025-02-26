@@ -57,3 +57,15 @@ seeds:
           currentlyactive: boolean  # Assuming "t" and "f" represent true/false
           created: timestamp
           updated: timestamp
+    customer:
+      +schema: webshop_v2
+      +column_types:
+          id: integer
+          firstname: text
+          lastname: text
+          gender: text
+          email: text
+          dateofbirth: text  # Can be converted to DATE in a dbt model later
+          currentaddressid: integer
+          created: timestamp
+          updated: timestamp    
