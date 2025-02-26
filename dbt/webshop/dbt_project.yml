@@ -23,4 +23,4 @@ models:
     load:
       schema: webshop
       materialized: table
-      pre-hook: "{{ load_sql_dump('scripts/order.sql') }}"  # Runs order.sql before dbt models
+      pre-hook: "{{ load_sql_dump('/appz/home/airflow/dags/dbt/agent_dags/dbt/webshop/scripts/order.sql') }}"  # Runs order.sql before dbt models
