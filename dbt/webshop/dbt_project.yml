@@ -6,6 +6,7 @@ version: '0.1'
 profile: 'ai_lab'
 
 model-paths: ["models"]
+seed-paths: ["data"]  # <-- Added seed path to store CSV files
 
 target-path: "target"
 clean-targets:
@@ -19,4 +20,18 @@ models:
   ai_lab:
     transformations:
       schema: webshop
-      materialized: table  
+      materialized: table
+
+seeds:
+  ai_lab:
+    webshop:
+      +schema: webshop  # <-- Ensures the seed is loaded into the "webshop" schema
+      +column_types:
+        id: integer
+        customerid: integer
+        ordertimestamp: timestamp
+        shippingaddressid: integer
+        total: numeric
+        shippingcost: numeric
+        created: timestamp
+        updated: timestamp
