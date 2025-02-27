@@ -19,5 +19,5 @@ updated_orders AS (
     FROM {{ source('webshop_v2', 'order') }}
 )
 
-SELECT * FROM  order;
+SELECT * FROM  "order";
 
