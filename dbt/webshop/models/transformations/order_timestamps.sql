@@ -22,4 +22,4 @@ shifted_orders AS (
     FROM {{ source('webshop_webshop_v2', 'updated_order') }}, date_shift
 )
 
-SELECT * FROM shifted_orders;
+SELECT * FROM shifted_orders
