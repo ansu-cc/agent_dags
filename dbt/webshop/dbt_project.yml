@@ -18,7 +18,7 @@ require-dbt-version: [">=1.0.0", "<2.0.0"]
 
 seeds:
   ai_lab:
-    order:
+    updated_order:
       +schema: webshop_v2  # Now loads into the webshop_v2 schema
       +column_types:
           id: integer
