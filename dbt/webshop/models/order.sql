@@ -13,10 +13,11 @@ day_diff AS (
 SELECT 
     id,
     customerid,
-    ordertimestamp + INTERVAL '1 day' * (SELECT day_difference FROM day_diff) AS updated_ordertimestamp,
+    ordertimestamp + INTERVAL '1 day' * (SELECT day_difference FROM day_diff) AS ordertimestamp,
     shippingaddressid,
     total,
     shippingcost,
     created,
     updated
 FROM {{ ref('order_seed') }}
+
