@@ -7,7 +7,7 @@ WITH date_shift AS (
     SELECT 
         MAX(orderTimestamp) AS max_timestamp,
         DATE_PART('day', CURRENT_DATE - MAX(orderTimestamp)) AS shift_days
-    FROM {{ source('webshop_webshop_v2', 'updated_order') }}
+    FROM {{ source('webshop_v2', 'updated_order') }}
 ),
 shifted_orders AS (
     SELECT 
@@ -19,7 +19,7 @@ shifted_orders AS (
         shippingcost,
         created,
         updated
-    FROM {{ source('webshop_webshop_v2', 'updated_order') }}, date_shift
+    FROM {{ source('webshop_v2', 'updated_order') }}, date_shift
 )
 
 SELECT * FROM shifted_orders
