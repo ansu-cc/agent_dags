@@ -22,9 +22,7 @@ shifted_orders AS (
     FROM {{ ref('order_seed') }}, date_shift
 )
 
--- Ensure proper WHERE condition for incremental models
 SELECT * FROM shifted_orders
 {% if is_incremental() %}
 WHERE ordertimestamp > (SELECT MAX(ordertimestamp) FROM {{ this }})
-{% endif %};
-
+{% endif %}
