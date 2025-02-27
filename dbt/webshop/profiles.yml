@@ -11,3 +11,4 @@ ai_lab:
       schema: webshop_v2  # This ensures that all dbt objects go into webshop_v2
       threads: 6
 
+#working version
