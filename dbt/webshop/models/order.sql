@@ -6,7 +6,7 @@
 SELECT
     id,
     customerid,
-    ordertimestamp + (CURRENT_DATE::timestamp - MAX(ordertimestamp) OVER()) AS ordertimestamp,
+    ordertimestamp + (NOW() - MAX(ordertimestamp) OVER()) AS ordertimestamp,
     shippingaddressid,
     total,
     shippingcost,
