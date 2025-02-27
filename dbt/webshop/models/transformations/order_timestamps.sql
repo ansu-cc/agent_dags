@@ -5,7 +5,7 @@ WITH date_shift AS (
         DATE_PART('day', CURRENT_DATE - MAX(orderTimestamp)) AS shift_days
     FROM {{ source('webshop_v2', 'order') }}
 ),
-updated_orders AS (
+updated_order AS (
     -- Apply the shift to all order timestamps
     SELECT 
         id,
@@ -19,5 +19,5 @@ updated_orders AS (
     FROM {{ source('webshop_v2', 'order') }}
 )
 
-SELECT * FROM  "order";
+SELECT * FROM  updated_order;
 
