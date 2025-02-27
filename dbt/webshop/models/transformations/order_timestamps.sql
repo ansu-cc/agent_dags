@@ -25,8 +25,8 @@
 -- SELECT * FROM shifted_orders
 
 {{ config(
-    materialized='incremental',
-    unique_key='id'
+    materialized:'incremental',
+    unique_key:'id'
 ) }}
 
 SELECT
