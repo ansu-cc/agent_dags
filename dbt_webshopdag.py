@@ -29,7 +29,7 @@ def on_failure_callback(context, SVC_NAME):
     print(msg)
 
 profile_config = ProfileConfig(
-    profile_name="webshop",
+    profile_name="ai_lab",
     target_name="dev",
     profiles_yml_filepath="/appz/home/airflow/dags/dbt/agent_dags/dbt/webshop/profiles.yml",
 )
