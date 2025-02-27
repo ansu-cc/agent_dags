@@ -18,8 +18,7 @@ require-dbt-version: [">=1.0.0", "<2.0.0"]
 
 seeds:
   ai_lab:
-    order:
-      # Removed "+schema: webshop_v2" to prevent double schema prefixing
+    order_seed:  # Renamed from 'order' to avoid conflict with the model
       +column_types:
         id: integer
         customerid: integer
