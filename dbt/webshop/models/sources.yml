@@ -1,8 +1,8 @@
 version: 2
 
 sources:
-  - name: webshop_webshop_v2
+  - name: webshop_v2
     database: webshop
-    schema: webshop_webshop_v2
+    schema: webshop_v2
     tables:
       - name: updated_order
