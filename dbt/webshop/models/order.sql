@@ -3,7 +3,7 @@
 ) }}
 
 WITH max_time AS (
-    SELECT MAX(ordertimestamp) AS max_timestamp FROM {{ ref('order') }}
+    SELECT MAX(ordertimestamp) AS max_timestamp FROM {{ ref('order_seed') }}
 ),
 
 day_diff AS (
@@ -19,5 +19,5 @@ SELECT
     shippingcost,
     created,
     updated
-FROM {{ ref('order') }}
+FROM {{ ref('order_seed') }}
 
