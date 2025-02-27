@@ -5,4 +5,4 @@ sources:
     database: webshop
     schema: webshop_v2
     tables:
-      - name: order
+      - name: updated_order
