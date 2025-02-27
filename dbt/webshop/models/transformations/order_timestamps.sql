@@ -12,7 +12,7 @@ SELECT
     shippingcost,
     created,
     updated
-FROM webshop_v2.updated_order
+FROM webshop_v2.order
 
 {% if is_incremental() %}
 WHERE ordertimestamp > (SELECT MAX(ordertimestamp) FROM {{ this }})
