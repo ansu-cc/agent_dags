@@ -19,13 +19,13 @@ require-dbt-version: [">=1.0.0", "<2.0.0"]
 seeds:
   ai_lab:
     order:
-      +schema: webshop_v2  # Now loads into the webshop_v2 schema
+      # Removed "+schema: webshop_v2" to prevent double schema prefixing
       +column_types:
-          id: integer
-          customerid: integer
-          ordertimestamp: timestamp
-          shippingaddressid: integer
-          total: numeric
-          shippingcost: numeric
-          created: timestamp
-          updated: timestamp
+        id: integer
+        customerid: integer
+        ordertimestamp: timestamp
+        shippingaddressid: integer
+        total: numeric
+        shippingcost: numeric
+        created: timestamp
+        updated: timestamp
