@@ -24,14 +24,13 @@ dbt_seed_commands = [
 
 dbt_run_commands = ["order"]
 
-# Convert 5 AM IST to UTC
-IST_TO_UTC_OFFSET = timedelta(hours=-5, minutes=-30)
-daily_schedule_utc = "23 30 * * *"  # 11:30 PM UTC (equivalent to 5:00 AM IST)
+# Convert 5 AM IST to UTC (Airflow uses UTC by default)
+daily_schedule_utc = "30 23 * * *"  # Runs daily at 11:30 PM UTC (5:00 AM IST)
 
 with DAG(
     'dbt_workflow',
     default_args=default_args,
-    schedule_interval=daily_schedule_utc,  # Run daily at 5 AM IST (11:30 PM UTC)
+    schedule_interval=daily_schedule_utc,  # Runs daily at 5 AM IST
     catchup=False
 ) as dag:
 
