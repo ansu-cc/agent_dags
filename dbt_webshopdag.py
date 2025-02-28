@@ -4,14 +4,11 @@ from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
 from cosmos import DbtTaskGroup, RenderConfig
 from cosmos.config import ProfileConfig, ProjectConfig, ExecutionConfig
-import shutil
 import os
 from pathlib import Path
 
-# Detect DBT executable dynamically
-DBT_EXECUTABLE = shutil.which("dbt")
-if not DBT_EXECUTABLE:
-    raise FileNotFoundError("⚠️ DBT executable not found! Ensure DBT is installed in the virtual environment.")
+# Manually set the correct DBT path
+DBT_EXECUTABLE = "/dbt_venv/bin/dbt"
 
 # Set DBT project path
 DBT_PROJECT_PATH = Path("/appz/home/airflow/dags/dbt/agent_dags/dbt/webshop")
