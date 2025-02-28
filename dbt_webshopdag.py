@@ -28,7 +28,7 @@ dbt_run_commands = ["order"]
 daily_schedule_utc = "30 23 * * *"  # Runs daily at 11:30 PM UTC (5:00 AM IST)
 
 with DAG(
-    'dbt_workflow',
+    'dataload_dag',
     default_args=default_args,
     schedule_interval=daily_schedule_utc,  # Runs daily at 5 AM IST
     catchup=False
