@@ -10,7 +10,7 @@ default_args = {
     'retries': 1,
 }
 
-dbt_project_dir = "/appz/home/airflow/dags/dbt/agent_dags/dbt/webshop"
+dbt_project_dir = "/appz/home/airflow/dags/webshop_dags/dbt/webshop"
 
 dbt_seed_commands = [
     "address", "articles", "colors", "customer", "labels", 
