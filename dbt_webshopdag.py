@@ -1,49 +1,87 @@
 from pendulum import datetime
 from airflow import DAG
 from airflow.operators.empty import EmptyOperator
+from airflow.operators.python import PythonOperator
 from cosmos import DbtTaskGroup, RenderConfig
 from cosmos.config import ProfileConfig, ProjectConfig, ExecutionConfig
+import shutil
+import os
 from pathlib import Path
 
-# Airflow Profile Configuration for dbt
+# Detect DBT executable dynamically
+DBT_EXECUTABLE = shutil.which("dbt")
+if not DBT_EXECUTABLE:
+    raise FileNotFoundError("⚠️ DBT executable not found! Ensure DBT is installed in the virtual environment.")
+
+# Set DBT project path
+DBT_PROJECT_PATH = Path("/appz/home/airflow/dags/dbt/agent_dags/dbt/webshop")
+
+# Custom failure callback for logging
+def log_task_failure(context):
+    task_id = context.get("task_instance").task_id
+    dag_id = context.get("task_instance").dag_id
+    log_url = context.get("task_instance").log_url
+    exec_date = context.get("execution_date")
+
+    error_message = f"""
+        ❌ DAG `{dag_id}` Task `{task_id}` Failed!
+        🔗 Logs: {log_url}
+        📅 Execution Date: {exec_date}
+    """
+    print(error_message)
+
+# Airflow Profile Config
 profile_config = ProfileConfig(
     profile_name="ai_lab",
     target_name="dev",
-    profiles_yml_filepath="/appz/home/airflow/dags/dbt/webshop/profiles.yml",
+    profiles_yml_filepath=str(DBT_PROJECT_PATH / "profiles.yml"),
 )
 
-# Define DAG
+# Print Airflow Variables (Debugging)
+def print_variable(**kwargs):
+    variable = kwargs.get('dag_run').conf.get('payment_type', 'No Payment Type Provided')
+    print(f"Received Payment Type: {variable}")
+
+# DAG Definition
 with DAG(
-    dag_id="webshop_dbt_daily",
-    start_date=datetime(2024, 2, 28),
-    schedule='0 6 * * *',  # Runs every morning at 6 AM
-    tags=["dbt", "webshop", "daily_run"],
-    default_args={"owner": "airflow", "retries": 2},
+    dag_id="dbt_webshop",
+    start_date=datetime(2024, 2, 27),
+    schedule='30 15 * * *',  
     catchup=False,
+    default_args={
+        "owner": "airflow",
+        "retries": 3,
+        "retry_delay": datetime.timedelta(minutes=5),
+        "on_failure_callback": log_task_failure,
+    },
 ):
-    start = EmptyOperator(task_id="start")
+    e1 = PythonOperator(
+        task_id="print_variables",
+        python_callable=print_variable,
+        provide_context=True,
+    )
 
-    # Step 1: Run dbt seed to load data
+    # DBT Seed Task Group
     dbt_seed_tg = DbtTaskGroup(
-        project_config=ProjectConfig(Path("/appz/home/airflow/dags/dbt/webshop")),
-        operator_args={"append_env": True},
+        project_config=ProjectConfig(DBT_PROJECT_PATH),
+        execution_config=ExecutionConfig(dbt_executable_path=DBT_EXECUTABLE),
         profile_config=profile_config,
-        execution_config=ExecutionConfig(dbt_executable_path="/dbt_venv/bin/dbt"),
-        render_config=RenderConfig(select=["seeds"]),  # Equivalent to `dbt seed`
-        group_id="dbt_seed",
+        render_config=RenderConfig(select=["path:seeds/"]),
+        default_args={"retries": 2},
+        group_id="dbt_seed_group"
     )
 
-    # Step 2: Run dbt models (Update Order Timestamp)
+    # DBT Run Task Group
     dbt_run_tg = DbtTaskGroup(
-        project_config=ProjectConfig(Path("/appz/home/airflow/dags/dbt/webshop")),
-        operator_args={"append_env": True},
+        project_config=ProjectConfig(DBT_PROJECT_PATH),
+        execution_config=ExecutionConfig(dbt_executable_path=DBT_EXECUTABLE),
         profile_config=profile_config,
-        execution_config=ExecutionConfig(dbt_executable_path="/dbt_venv/bin/dbt"),
-        render_config=RenderConfig(select=["models"]),  # Equivalent to `dbt run`
-        group_id="dbt_run",
+        render_config=RenderConfig(exclude=["path:seeds/"]),
+        default_args={"retries": 2, "on_failure_callback": log_task_failure},
+        group_id="dbt_run_group"
     )
 
-    end = EmptyOperator(task_id="end")
+    e2 = EmptyOperator(task_id="post_dbt")
 
-    # Task flow: dbt seed -> dbt run
-    start >> dbt_seed_tg >> dbt_run_tg >> end
+    # Task Flow
+    e1 >> dbt_seed_tg >> dbt_run_tg >> e2
