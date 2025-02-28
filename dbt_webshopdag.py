@@ -1,13 +1,14 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.utils.task_group import TaskGroup
-from datetime import datetime
+from datetime import datetime, timedelta
 
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
     'start_date': datetime(2024, 2, 28),
     'retries': 1,
+    'retry_delay': timedelta(minutes=5),
 }
 
 # Define DBT project path and executable
@@ -23,10 +24,14 @@ dbt_seed_commands = [
 
 dbt_run_commands = ["order"]
 
+# Convert 5 AM IST to UTC
+IST_TO_UTC_OFFSET = timedelta(hours=-5, minutes=-30)
+daily_schedule_utc = "23 30 * * *"  # 11:30 PM UTC (equivalent to 5:00 AM IST)
+
 with DAG(
     'dbt_workflow',
     default_args=default_args,
-    schedule_interval=None,
+    schedule_interval=daily_schedule_utc,  # Run daily at 5 AM IST (11:30 PM UTC)
     catchup=False
 ) as dag:
 
