@@ -47,9 +47,3 @@ with DAG(
 
     # Task flow: dbt seed -> dbt run
     start >> dbt_seed_tg >> dbt_run_tg >> end
-
-
-
-
-
-
