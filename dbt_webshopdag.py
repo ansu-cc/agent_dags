@@ -1,4 +1,5 @@
 from pendulum import datetime
+from datetime import timedelta  # ✅ Correct import for timedelta
 from airflow import DAG
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
@@ -48,7 +49,7 @@ with DAG(
     default_args={
         "owner": "airflow",
         "retries": 3,
-        "retry_delay": datetime.timedelta(minutes=5),
+        "retry_delay": timedelta(minutes=5),  # ✅ Fixed timedelta import
         "on_failure_callback": log_task_failure,
     },
 ):
