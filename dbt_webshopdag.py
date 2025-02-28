@@ -64,7 +64,7 @@ with DAG(
         operator_args={"append_env": True},
         profile_config=profile_config,
         execution_config=ExecutionConfig(dbt_executable_path="/dbt_venv/bin/dbt"),
-        render_config=RenderConfig(select=["path:seeds/"]),
+        render_config=RenderConfig(select=["path:seeds/"], full_refresh=True),  # Full refresh enabled
         default_args={"retries": 2},
         group_id="dbt_seed_group"
     )
