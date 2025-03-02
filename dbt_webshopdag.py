@@ -12,7 +12,7 @@ default_args = {
 }
 
 # Define DBT project path and executable
-dbt_project_dir = "/appz/home/airflow/dags/agent_dags/dbt/webshop"
+dbt_project_dir = "/appz/home/airflow/dags/webshop_dags/dbt/webshop"
 dbt_executable_path = "/dbt_venv/bin/dbt"  # Full path to dbt binary
 dbt_venv_path = "/dbt_venv/bin/activate"  # Path to activate virtual env
 
