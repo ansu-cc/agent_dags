@@ -2,6 +2,8 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.utils.task_group import TaskGroup
 from datetime import datetime, timedelta
+from airflow.models import Variable
+import os
 
 default_args = {
     'owner': 'airflow',
@@ -15,6 +17,8 @@ default_args = {
 dbt_project_dir = "/appz/home/airflow/dags/webshop_dags/dbt/webshop"
 dbt_executable_path = "/dbt_venv/bin/dbt"  # Full path to dbt binary
 dbt_venv_path = "/dbt_venv/bin/activate"  # Path to activate virtual env
+os.environ["WEBSHOP_POSTGRES_USER"] = Variable.get("WEBSHOP_POSTGRES_USER")
+os.environ["WEBSHOP_POSTGRES_PASSWORD"] = Variable.get("WEBSHOP_POSTGRES_PASSWORD")
 
 # Define dbt commands
 dbt_seed_commands = [
